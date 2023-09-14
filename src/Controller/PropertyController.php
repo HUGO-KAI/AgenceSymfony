@@ -4,15 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PropertyController extends AbstractController
 {
-    public function __construct(PropertyRepository $repository)
+    public function __construct(PropertyRepository $repository, EntityManagerInterface $em)
     {
         $this->repository = $repository;
+        $this->em = $em;
     }
     /**
      * @Route("/biens",name="property.index")
@@ -21,7 +23,7 @@ class PropertyController extends AbstractController
     public function index(PropertyRepository $repository):Response
     {
         //Ajouter une ligne dans la BDD
-        /*$property = new Property();
+        /* $property = new Property();
         $property->setTitle('Mon premier bien')
             ->setPrice(200000)
             ->setRooms(4)
@@ -38,14 +40,14 @@ class PropertyController extends AbstractController
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($property);
         // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();*/
+        $entityManager->flush(); */
 
         //trouver une ligne de donnée dans la BDD
-        /*$bien = $this->repository->findOneBy(['floor' => 4]);
-        dump($bien);*/
+       /*  $bien = $this->repository->findOneBy(['floor' => 4]);
+        dump($bien); */
+        
         $bien = $this->repository->findAllVisible();
-        $bien[0] ->setSold(true);
-                dump($bien);
+        $this->em->flush();
         return $this->render('property/index.html.twig',[
             'current_menu' => 'properties'
         ]) ;
