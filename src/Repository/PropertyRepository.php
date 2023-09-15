@@ -6,6 +6,7 @@ use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -52,10 +53,23 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function findAllVisible():array
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.sold = false')
+        return $this->findVisibleQuery()
             ->getQuery()
             ->getResult();
+    }
+
+    public function findLatest():array
+    {
+        return $this->findVisibleQuery()
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findVisibleQuery():QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.sold = false');
     }
 
     // /**

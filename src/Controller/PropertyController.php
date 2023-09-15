@@ -46,11 +46,33 @@ class PropertyController extends AbstractController
        /*  $bien = $this->repository->findOneBy(['floor' => 4]);
         dump($bien); */
         
-        $bien = $this->repository->findAllVisible();
-        $this->em->flush();
+        /*$bien = $this->repository->findAllVisible();
+        $this->em->flush();*/
         return $this->render('property/index.html.twig',[
             'current_menu' => 'properties'
         ]) ;
+    }
+
+    /**
+     * @Route("/biens/{slug}-{id}",name="property.show",requirements={"slug" = "[a-z0-9\-]*"})
+     * @return Response
+     */
+
+    public function show($slug,$id):Response
+    {
+        $property = $this->repository->find($id);
+
+        //C'est très bien pour le référencement
+        if($property->getSlug() !== $slug){
+            return $this->redirectToRoute('property.show', [
+                'id' => $property->getId(),
+                'slug' => $property->getSlug()
+            ],301);
+        }
+        return $this->render('property/show.html.twig',[
+            'property' => $property,
+            'current_menu' => 'properties'
+        ]);
     }
 
 }
