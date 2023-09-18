@@ -46,10 +46,11 @@ class PropertyController extends AbstractController
        /*  $bien = $this->repository->findOneBy(['floor' => 4]);
         dump($bien); */
         
-        /*$bien = $this->repository->findAllVisible();
-        $this->em->flush();*/
+        $properties = $this->repository->findAllVisible();
+        //$this->em->flush();
         return $this->render('property/index.html.twig',[
-            'current_menu' => 'properties'
+            'current_menu' => 'properties',
+            'properties' => $properties
         ]) ;
     }
 

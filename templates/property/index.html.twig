@@ -3,8 +3,16 @@
 
 {% block body %}
 
-    <div class="jumbotron text-center">
+    <div class="container text-center">
         <h1>Voir tous nos biens</h1>
-        <p>Voici une liste de tous nos biens proposés par notre agence</p>
+        <div class="row">
+            {% for property in properties %}
+            <div class="col-4">
+                {%  include 'property/_property.html.twig' %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
+
 {% endblock %}
+
