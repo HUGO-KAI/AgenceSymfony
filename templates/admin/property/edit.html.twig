@@ -1,18 +1,11 @@
 {%  extends 'base.html.twig' %}
 
-{% block title 'Gérer les bien' %}
+{% block title 'Gérer les biens' %}
 
 {% block body %}
     <div class="container mt-4">
+        <h1>Editer les biens</h1>
+        {{ include ('admin/property/_form.html.twig', {form:form, button: 'Editer'}) }}
 
-        {{ form_start(form) }}
-        <div class="row">
-            <div class="col-md-4">{{ form_row(form.title) }}</div>
-            <div class="col-md-4">{{ form_row(form.surface) }}</div>
-            <div class="col-md-4">{{ form_row(form.price) }}</div>
-        </div>
-            {{ form_widget(form) }}
-        <button class="btn btn-primary">Editer</button>
-        {{ form_end(form) }}
     </div>
 {% endblock %}
