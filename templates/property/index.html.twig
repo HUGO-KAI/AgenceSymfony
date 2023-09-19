@@ -2,7 +2,23 @@
 {% block title %}Tous nos biens!{% endblock %}
 
 {% block body %}
-
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(form) }}
+                <div class="form-row align-items-end">
+                    <div class="col">
+                        {{ form_row(form.minSurface) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.maxPrice) }}
+                    </div>
+                    <div class="col form-group">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
     <div class="container text-center">
         <h1>Voir tous nos biens</h1>
         <div class="row">
@@ -11,6 +27,11 @@
                 {%  include 'property/_property.html.twig' %}
             </div>
             {% endfor %}
+        </div>
+
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(properties) }}
         </div>
     </div>
 

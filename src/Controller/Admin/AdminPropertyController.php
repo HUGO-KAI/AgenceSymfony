@@ -62,7 +62,7 @@ class AdminPropertyController extends AbstractController
      */
 
     //Supprimer un bien dans la BDD
-    public function delete (Property $property, Request $request)
+    public function delete (Property $property, Request $request):Response
     {
         //Vérifier le token générer par le form
         if ($this->isCsrfTokenValid('delete'.$property->getId(),$request->get('_token'))) {
