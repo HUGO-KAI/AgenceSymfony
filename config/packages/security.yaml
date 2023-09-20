@@ -23,7 +23,7 @@ security:
                 path: logout
 
                 # where to redirect after logout
-                target: /
+                target: /admin
 
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
