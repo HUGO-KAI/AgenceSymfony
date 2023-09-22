@@ -8,6 +8,9 @@ use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +47,7 @@ class AdminPropertyController extends AbstractController
         $form ->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            $this->handleTheUploadFile($form, $property);
             $this -> em -> persist($property);
             $this -> em -> flush();
             $this->addFlash('success', 'bien créé avec succès');
@@ -67,6 +71,17 @@ class AdminPropertyController extends AbstractController
     {
         //Vérifier le token générer par le form
         if ($this->isCsrfTokenValid('delete'.$property->getId(),$request->get('_token'))) {
+
+            //delete the image file
+            $filesystem = new Filesystem();
+            $filename = $property->getFilename();
+            if ($filename) {
+                $path=$this->getParameter("images_directory").'/'.$filename;
+                $cachePath='/media/cache/thumb/images/properties/'.$filename;
+                $filesystem->remove($path);
+                $filesystem->remove($cachePath);
+            }
+            //delete data in database
             $this -> em -> remove($property);
             $this -> em -> flush();
             $this->addFlash('success', 'bien supprimé avec succès');
@@ -85,10 +100,14 @@ class AdminPropertyController extends AbstractController
     {
         //Créer le formulaire
         $form = $this->createForm(PropertyType::class,$property);
+
         //Gérer la requête, valider et modifier la donnée
         $form ->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
+            //handle the upload file
+            $this->handleTheUploadFile($form, $property);
             $this->em->flush();
             $this->addFlash('success', 'bien modifié avec succès');
             return $this -> redirectToRoute('admin.property.index');
@@ -98,6 +117,36 @@ class AdminPropertyController extends AbstractController
             'property' => $property,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param Property $property
+     * @return void
+     */
+    public function handleTheUploadFile(FormInterface $form, Property $property): void
+    {
+        $imageFile = $form->get('imageFile')->getData();
+        if ($imageFile) {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+            // Move the file to the directory where images files are stored
+            try {
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            // updates the 'brochureFilename' property to store the PDF file name
+            // instead of its contents
+            $property->setFilename($newFilename);
+        }
     }
 
 

@@ -1,4 +1,10 @@
+{# la carte dans la galerie #}
 <div class="card mt-4">
+    {% if property.filename %}
+        <img src="{{ asset("/images/properties/" ~ property.filename)  | imagine_filter('thumb') }}" class="card-img-top" alt="card-img-top" />
+    {% else %}
+        <img src="{{ asset('/images/default.png')  | imagine_filter('thumb') }}" class="card-img-top" alt="card-img-top"/>
+    {% endif %}
     <div class="card-body text-left">
         <h5 class="card-title">
             <a href="{{ path('property.show', {slug:property.slug, id:property.id}) }}">

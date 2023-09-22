@@ -19,11 +19,12 @@ security:
             # http_basic: true
             form_login:
                 check_path: login
+                use_referer: true
             logout:
                 path: logout
 
                 # where to redirect after logout
-                target: /admin
+                target: /
 
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
