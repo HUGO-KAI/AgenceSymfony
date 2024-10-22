@@ -30,5 +30,8 @@
 #### nom: hugo
 #### password: 12345678
 
+## 7. Connecter sur ce site en entrant le nom et le password créé précédemment
+## 8. Edit un nouveau bien
+
 
 
