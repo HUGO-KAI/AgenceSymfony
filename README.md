@@ -12,7 +12,13 @@
 ### -Terminal: composer install
 ### -Terminal: npm install
 
-## 2.Lancer le programme
+## 2.Créer base des données:
+### php bin/console d:d:c
+
+## 3. Créer les tables
+### php bin/console d:m:m
+
+## 4.Lancer le programme
 ### -Terminal: npm run dev-server
 ### -Terminal: symfony serve:start -d
 
