@@ -22,8 +22,13 @@
 ### -Terminal: npm run dev-server
 ### -Terminal: symfony serve:start -d
 
-## 3.Visiter le site local 
+## 5.Visiter le site local 
 ### -localhost 127.0.0.1:8000
+
+## 6.Créer un utilisateur dans la tableau user:
+### Exemple:
+#### nom: hugo
+#### password: 12345678
 
 
 
