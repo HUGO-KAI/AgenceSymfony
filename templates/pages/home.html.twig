@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-body">
                          <h5 class="card-title">
-                            <a href="{{ path('property.show',{id:property.id, slug:property.slug}) }}" class="d-inline-block text-truncate" style="max-width: 95%;">{{ property.title }}</a>
+                            <a href="{{ path('property.show',{id:property.id, slug:property.title}) }}" class="d-inline-block text-truncate" style="max-width: 95%;">{{ property.title }}</a>
                          </h5>
                         <p class="card-text text-truncate" style="max-width: 95%;">{{ property.city }} ({{ property.postalCode }})</p>
                         <div class="text-primary font-weight-bold" style="font-size: 2rem">{{ property.formattedPrice()}} €</div>

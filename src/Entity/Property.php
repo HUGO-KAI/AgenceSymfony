@@ -148,7 +148,7 @@ class Property
 
     public function getSlug():string
     {
-        return (new Slugify())->slugify($this->title);
+        return (new Slugify())->slugify($this->title,"_");
     }
 
     public function getDescription(): ?string

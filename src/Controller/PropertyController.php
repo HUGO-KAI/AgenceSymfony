@@ -18,10 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PropertyController extends AbstractController
 {
+    private $repository;
     public function __construct(PropertyRepository $repository, EntityManagerInterface $em)
     {
         $this->repository = $repository;
-        $this->em = $em;
+        $em = $em;
     }
     /**
      * @Route("/biens",name="property.index")
@@ -76,15 +77,13 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/biens/{slug}-{id}",name="property.show",requirements={"slug" = "[a-z0-9\-]*"})
+     * @Route("/biens/{slug}-{id}",name="property.show")
      * @return Response
      */
 
     //Controller la fiche en détail
     public function show(Property $property,string $slug, Request $request, ContactNotification $notification):Response
     {
-
-
         //C'est très bien pour le référencement
         if($property->getSlug() !== $slug){
             return $this->redirectToRoute('property.show', [
@@ -92,7 +91,6 @@ class PropertyController extends AbstractController
                 'slug' => $property->getSlug()
             ],301);
         }
-
         $contact = new Contact();
         $contact->setProperty($property);
         $form = $this->createForm(ContactType::class, $contact);
