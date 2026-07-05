@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminPropertyController extends AbstractController
 {
+    private $repository;
+    private $em;
     public function __construct(PropertyRepository $repository, EntityManagerInterface $em)
     {
     $this->repository = $repository;

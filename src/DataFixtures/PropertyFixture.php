@@ -27,7 +27,9 @@ class PropertyFixture extends Fixture
         ->setAddress($faker->address)
         ->setPostalCode($faker->postcode)
         ->setSold(false)
-        ->setUpdatedAt($faker->dateTimeBetween('-6 months', 'now'));
+        ->setCreatedAt($faker->dateTime)
+        ->setFilename("default.png")
+        ->setUpdatedAt($faker->dateTime);
       $manager->persist($property);
     }
     $manager->flush();
